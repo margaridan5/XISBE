@@ -342,13 +342,21 @@
             box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: opacity 0.3s ease;
             z-index: 999;
+            touch-action: manipulation;
         }
 
         #back-to-top.visible {
             opacity: 1;
             pointer-events: auto;
+        }
+
+        @media (max-width: 600px) {
+            #back-to-top {
+                padding: 16px 36px;
+                font-size: 22px;
+            }
         }
     </style>
 </head>
@@ -894,7 +902,7 @@
 </main>
 <div id="footer-placeholder"></div>
 
-<button id="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Back to top">↑</button>
+<button id="back-to-top" aria-label="Back to top">↑</button>
 
 <script>
     function normalizeText(value) {
@@ -1150,6 +1158,11 @@
     });
 
     window.addEventListener('resize', resetSpeakerCardsForDesktop);
+
+    const backToTopBtn = document.getElementById('back-to-top');
+    const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    backToTopBtn.addEventListener('click', scrollToTop);
+    backToTopBtn.addEventListener('touchend', (e) => { e.preventDefault(); scrollToTop(); });
 
     window.addEventListener('scroll', () => {
         const btn = document.getElementById('back-to-top');
